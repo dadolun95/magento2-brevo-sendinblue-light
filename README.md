@@ -15,6 +15,8 @@ These are the default built in contact attributes:
 - STREET (customer subscribed only)
 - REGION (customer subscribed only)
 - STORE_ID (customer subscribed only)
+
+
 Double optin and email confirmation are demanded to Magento2 (Different behavior from the official module).
 
 
