@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Dadolun_SibContactSync
+ * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @license     Open Source License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="dadolun_sib" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Dadolun_SibCore::sendinblue</resource>
+            <group id="sendinblue_contact" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Contact Sync</label>
+                <field id="subscribe_setting" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sync contacts on Sendinblue</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="dadolun_sib/sendinblue/api_key_status">1</field>
+                    </depends>
+                </field>
+                <field id="sync_old_contacts" translate="button_label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <button_label>Sync contacts</button_label>
+                    <frontend_model>Dadolun\SibContactSync\Block\Adminhtml\Config\SyncContacts</frontend_model>
+                    <depends>
+                        <field id="subscribe_setting">1</field>
+                    </depends>
+                </field>
+                <field id="confirm_type" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subscription Confirmation Type</label>
+                    <backend_model>Dadolun\SibContactSync\Model\Config\Backend\ConfirmType</backend_model>
+                    <source_model>Dadolun\SibContactSync\Model\Config\Source\ConfirmType</source_model>
+                    <depends>
+                        <field id="subscribe_setting">1</field>
+                    </depends>
+                </field>
+                <field id="selected_list_data" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subscription selected list</label>
+                    <source_model>Dadolun\SibContactSync\Model\Config\Source\SelectedListData</source_model>
+                    <depends>
+                        <field id="subscribe_setting">1</field>
+                    </depends>
+                </field>
+                <field id="doubleoption_from_name" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default doubleoption from name</label>
+                    <depends>
+                        <field id="confirm_type">doubleoptin</field>
+                    </depends>
+                </field>
+                <field id="doubleoption_from_email" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default doubleoption from email</label>
+                    <depends>
+                        <field id="confirm_type">doubleoptin</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Dadolun_SibContactSync
+ * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @license     Open Source License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dadolun_sib>
+            <sendinblue_contact>
+                <doubleoption_from_name>Sendinblue</doubleoption_from_name>
+                <doubleoption_from_email>no-reply@sendinblue.com</doubleoption_from_email>
+            </sendinblue_contact>
+        </dadolun_sib>
+    </default>
+</config>

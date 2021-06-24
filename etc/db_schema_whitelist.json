@@ -1,0 +1,18 @@
+{
+    "sendinblue_country_codes": {
+        "column": {
+            "sendinblue_country_code_id": true,
+            "iso_code": true,
+            "country_prefix": true,
+            "status": true,
+            "created_time": true,
+            "updated_time": true
+        },
+        "index": {
+            "SENDINBLUE_COUNTRY_CODES_ISO_CODE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Dadolun_SibContactSync
+ * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @license     Open Source License
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Dadolun\SibContactSync\Api\SibCountryCodeResourceInterface" type="Dadolun\SibContactSync\Model\ResourceModel\SibCountryCode" />
+    <preference for="Dadolun\SibContactSync\Api\SibCountryRepositoryInterface" type="Dadolun\SibContactSync\Model\SibCountryCodeRepository" />
+    <preference for="Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface" type="Dadolun\SibContactSync\Model\SibCountryCode" />
+    <type name="Dadolun\SibContactSync\Model\Config\Backend\ConfirmType">
+        <arguments>
+            <argument name="contactNormalAttributes" xsi:type="array">
+                <item name="FIRSTNAME" xsi:type="string">text</item>
+                <item name="LASTNAME" xsi:type="string">text</item>
+                <item name="MAGENTO_LANG" xsi:type="string">text</item>
+                <item name="CLIENT" xsi:type="string">float</item>
+                <item name="COMPANY" xsi:type="string">text</item>
+                <item name="CITY" xsi:type="string">text</item>
+                <item name="COUNTRY_ID" xsi:type="string">text</item>
+                <item name="POSTCODE" xsi:type="string">float</item>
+                <item name="STREET" xsi:type="string">text</item>
+                <item name="REGION" xsi:type="string">text</item>
+                <item name="STORE_ID" xsi:type="string">float</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
