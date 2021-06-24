@@ -2,7 +2,9 @@
 
 ## Features
 Contact Syncronization functionality for Sendinblue - Magento2 integration.
+
 This module sync all your Magento2 subscribers to Sendinblue.
+
 These are the default built in contact attributes:
 - FIRSTNAME
 - LASTNAME
