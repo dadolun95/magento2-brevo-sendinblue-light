@@ -64,7 +64,7 @@ class SelectedListData implements \Magento\Framework\Option\ArrayInterface
     {
         $sibListsArray = [];
         $apiKey = $this->configHelper->getValue('api_key_v3');
-        if (!is_null($apiKey) && $this->configHelper->getValue('api_key_status')) {
+        if (!is_null($apiKey) && $apiKey !== '' && $this->configHelper->getValue('api_key_status')) {
             $sibLists = $this->getSibLists();
             foreach ($sibLists as $list) {
                 $sibListsArray[$list['value']] = $list['label'];
@@ -79,7 +79,7 @@ class SelectedListData implements \Magento\Framework\Option\ArrayInterface
      */
     private function getSibLists() {
         $apiKey = $this->configHelper->getValue('api_key_v3');
-        if (!is_null($apiKey) && $this->configHelper->getValue('api_key_status')) {
+        if (!is_null($apiKey) && $apiKey !== '' && $this->configHelper->getValue('api_key_status')) {
             if (empty($this->sibLists)) {
                 $sibClient = $this->sibClientConnector->createSibClient();
                 $sibClient->setApiKey($this->configHelper->getValue('api_key_v3'));
