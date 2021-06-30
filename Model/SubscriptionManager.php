@@ -37,7 +37,7 @@ class SubscriptionManager {
      * @var SibClientConnector
      */
     protected $sibClientConnector;
-
+Dadolun\SibCore\Model\SibClient
     /**
      * @var Configuration
      */
@@ -113,7 +113,7 @@ class SubscriptionManager {
         }
 
         /**
-         * @var \Sendinblue\Sendinblue\Model\SibClient $sibClient
+         * @var \Dadolun\SibCore\Model\SibClient $sibClient
          */
         $apiKey = $this->configHelper->getValue('api_key_v3');
         $sibClient = $this->sibClientConnector->createSibClient($apiKey);
@@ -159,7 +159,7 @@ class SubscriptionManager {
         }
 
         /**
-         * @var \Sendinblue\Sendinblue\Model\SibClient $sibClient
+         * @var \Dadolun\SibCore\Model\SibClient $sibClient
          */
         $sibClient = $this->sibClientConnector->createSibClient();
         $apiKey = $this->configHelper->getValue('api_key_v3');
