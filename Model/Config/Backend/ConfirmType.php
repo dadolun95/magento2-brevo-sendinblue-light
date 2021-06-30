@@ -109,8 +109,15 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
                 }
 
                 try {
+                    $contactAttributes =  $sibClient->getAttributes()['attributes'];
+                    $contactAttributesList = array();
+                    foreach($contactAttributes as $attribute) {
+                        $contactAttributesList[] = $attribute['name'];
+                    }
                     foreach ($this->contactNormalAttributes as $contactAttribute => $type) {
-                        $sibClient->createAttribute(self::NORMAL_TYPE_CONTACT_ATTRIBUTES_KEY, $contactAttribute, array("type" => $type));
+                        if (!in_array($contactAttribute, $contactAttributesList)) {
+                            $sibClient->createAttribute(self::NORMAL_TYPE_CONTACT_ATTRIBUTES_KEY, $contactAttribute, array("type" => $type));
+                        }
                     }
                     $this->_dataSaveAllowed = true;
                 } catch (\Exception $e) {
@@ -142,7 +149,6 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
                     $listResp = $sibClient->getAllLists($value['id']);
                     if (!empty($listResp['lists']) && $listResp['count']) {
                         foreach ($listResp['lists'] as $val) {
-                            var_dump($val['name']);
                             if ($val['name'] === self::OPTIN_LIST_NAME) {
                                 $sibOptinListArray['optin_id'] = $val['id'];
                             }
