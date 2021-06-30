@@ -79,7 +79,7 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
         $this->_dataSaveAllowed = false;
         $value = (string)$this->getValue();
         $apiKey = $this->configHelper->getValue('api_key_v3');
-        if ($apiKey !== '') {
+        if (!is_null($apiKey) && $apiKey !== '') {
             /**
              * @var \Dadolun\SibCore\Model\SibClient $sibClient
              */
