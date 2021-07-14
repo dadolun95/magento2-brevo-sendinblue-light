@@ -42,7 +42,7 @@ and executing this command:
 composer require dadolun95/magento2-sib-order-sync
 ```
 ###### VCS 
-Same result specifing a VCS type node on composer:
+Same result specifing VCS type nodes on composer:
 ```
 {
     "type": "vcs",
