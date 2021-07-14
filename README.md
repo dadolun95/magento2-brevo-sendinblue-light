@@ -47,6 +47,14 @@ Same result specifing a VCS type node on composer:
 {
     "type": "vcs",
     "url":  "git@github.com:dadolun95/magento2-sib-core.git"
+},
+{
+    "type": "vcs",
+    "url":  "git@github.com:dadolun95/magento2-sib-contact-sync.git"
+},
+{
+    "type": "vcs",
+    "url":  "git@github.com:dadolun95/magento2-sib-order-sync.git"
 }
 ```
 ```
