@@ -37,7 +37,7 @@ class SubscriptionManager {
      * @var SibClientConnector
      */
     protected $sibClientConnector;
-Dadolun\SibCore\Model\SibClient
+
     /**
      * @var Configuration
      */
