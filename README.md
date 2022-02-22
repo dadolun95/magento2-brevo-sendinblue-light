@@ -11,14 +11,14 @@ These are the default built in contact attributes:
 - FIRSTNAME
 - LASTNAME
 - MAGENTO_LANG
-- CLIENT (customer subscribed only)
-- COMPANY (customer subscribed only)
-- CITY (customer subscribed only)
-- COUNTRY_ID (customer subscribed only)
-- POSTCODE (customer subscribed only)
-- STREET (customer subscribed only)
-- REGION (customer subscribed only)
-- STORE_ID (customer subscribed only)
+- CLIENT (subscribed customer only)
+- COMPANY (subscribed customer only)
+- CITY (subscribed customer only)
+- COUNTRY_ID (subscribed customer only)
+- POSTCODE (subscribed customer only)
+- STREET (subscribed customer only)
+- REGION (subscribed customer only)
+- STORE_ID (subscribed customer only)
 
 
 Double optin and email confirmation are demanded to Magento2 (Different behavior from the official module).
