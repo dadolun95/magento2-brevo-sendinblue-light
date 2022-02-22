@@ -1,4 +1,6 @@
-# Dadolun_SibContactSync
+# Sendinblue Magento2 Module
+
+### Dadolun_SibContactSync
 
 ## Features
 Contact Syncronization functionality for Sendinblue - Magento2 integration.
