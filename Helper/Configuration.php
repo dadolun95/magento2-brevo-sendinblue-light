@@ -36,7 +36,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
     const SIB_DUBLE_OPTIN_CONFIRM = 'doubleoptin';
 
     const CONFIG_GROUP_CONTACT_PATH = 'sendinblue_contact';
-    const MODULE_CONTACT_CONFIG_PATH = self::CONFIG_SECTION_PATH . DS . self::CONFIG_GROUP_CONTACT_PATH;
+    const MODULE_CONTACT_CONFIG_PATH = self::CONFIG_SECTION_PATH . '/' . self::CONFIG_GROUP_CONTACT_PATH;
 
     const ALLOWED_SUBSCRIBER_STATUSES = [
         Subscriber::STATUS_SUBSCRIBED,
@@ -49,7 +49,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
      * @return mixed
      */
     public function getContactValue($val) {
-        return $this->scopeConfig->getValue(self::MODULE_CONTACT_CONFIG_PATH . DS . $val, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -57,7 +57,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
      * @return bool
      */
     public function getContactFlag($val) {
-        return $this->scopeConfig->isSetFlag(self::MODULE_CONTACT_CONFIG_PATH . DS . $val, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -70,7 +70,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
      */
     public function setContactValue($pathVal, $val, $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeId = 0)
     {
-        $this->configWriter->save(self::MODULE_CONTACT_CONFIG_PATH . DS . $pathVal, $val, $scope, $scopeId);
+        $this->configWriter->save(self::MODULE_CONTACT_CONFIG_PATH . '/' . $pathVal, $val, $scope, $scopeId);
     }
 
     /**
