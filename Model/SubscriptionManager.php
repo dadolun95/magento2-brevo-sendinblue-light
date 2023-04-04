@@ -121,7 +121,7 @@ class SubscriptionManager {
 
         $sibData = array(
             "attributes" => $data,
-            "listIds" => array_map('intval', explode('|', $listId))
+            "listIds" => array_map('intval', explode('|', $listId ?? ''))
         );
 
         try {
@@ -132,7 +132,7 @@ class SubscriptionManager {
 
         if (!empty($sibUser)) {
             if ($sendinConfirmType === Configuration::SIB_DUBLE_OPTIN_CONFIRM && $subscriberStatus === Subscriber::STATUS_SUBSCRIBED) {
-                $sibData["unlinkListIds"] = array_map('intval', explode('|', $this->configHelper->getContactValue('optin_list_id')));
+                $sibData["unlinkListIds"] = array_map('intval', explode('|', $this->configHelper->getContactValue('optin_list_id') ?? ''));
             }
             $sibClient->updateUser($email, $sibData);
         } else {

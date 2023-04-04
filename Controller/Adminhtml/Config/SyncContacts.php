@@ -130,75 +130,83 @@ class SyncContacts extends \Magento\Backend\App\Action
             $email = $subscriber->getEmail();
             if ($subscriber->getCustomerId()) {
                 $this->debugLogger->info(__('Subscribe user (admin sync)'));
-                /**
-                 * @var \Magento\Customer\Api\Data\CustomerInterface $customer
-                 */
-                $customer = $this->subscriptionManager->getCustomer($subscriber->getCustomerId());
-                $billingId = !empty($customer->getDefaultBilling()) ? $customer->getDefaultBilling() : '';
-                $firstName = $customer->getFirstname();
-                $lastName = $customer->getLastname();
-                $storeId = $customer->getStoreId();
-                $storeView = $this->storeManager->getStore($storeId)->getName();
+                try {
+                    /**
+                     * @var \Magento\Customer\Api\Data\CustomerInterface $customer
+                     */
+                    $customer = $this->subscriptionManager->getCustomer($subscriber->getCustomerId());
+                    $billingId = !empty($customer->getDefaultBilling()) ? $customer->getDefaultBilling() : '';
+                    $firstName = $customer->getFirstname();
+                    $lastName = $customer->getLastname();
+                    $storeId = $customer->getStoreId();
+                    $storeView = $this->storeManager->getStore($storeId)->getName();
 
-                if (!empty($firstName)) {
-                    $updateDataInSib[ConfigurationHelper::SIB_CLIENT_FIRSTNAME] = $firstName;
-                }
-                if (!empty($lastName)) {
-                    $updateDataInSib[ConfigurationHelper::SIB_CLIENT_LASTNAME] = $lastName;
-                }
-
-                $updateDataInSib[ConfigurationHelper::SIB_CLIENT_ATTRIBUTE] = 1;
-
-                if (!empty($storeId)) {
-                    $updateDataInSib[ConfigurationHelper::SIB_STORE_ATTRIBUTE] = $storeId;
-                }
-                if (!empty($storeView)) {
-                    $updateDataInSib[ConfigurationHelper::SIB_LANG_ATTRIBUTE] = $storeView;
-                }
-
-                if (!empty($billingId)) {
-                    $address = $this->customerAddressRepository->getById($billingId);
-                    $street = $address->getStreet();
-                    $streetValue = '';
-                    foreach ($street as $streetData) {
-                        $streetValue .= $streetData . ' ';
+                    if (!empty($firstName)) {
+                        $updateDataInSib[ConfigurationHelper::SIB_CLIENT_FIRSTNAME] = $firstName;
+                    }
+                    if (!empty($lastName)) {
+                        $updateDataInSib[ConfigurationHelper::SIB_CLIENT_LASTNAME] = $lastName;
                     }
 
-                    $smsValue = !empty($address->getTelephone()) ? $address->getTelephone() : '';
+                    $updateDataInSib[ConfigurationHelper::SIB_CLIENT_ATTRIBUTE] = 1;
 
-                    $countryId = !empty($address->getCountryId()) ? $address->getCountryId() : '';
-                    if (!empty($smsValue) && !empty($countryId)) {
-                        $countryCode = $this->subscriptionManager->getCountryCode($countryId);
-                        if (!empty($countryCode)) {
-                            $updateDataInSib[ConfigurationHelper::SIB_SMS_ATTRIBUTE] = $this->subscriptionManager->checkMobileNumber($smsValue, $countryCode);
+                    if (!empty($storeId)) {
+                        $updateDataInSib[ConfigurationHelper::SIB_STORE_ATTRIBUTE] = $storeId;
+                    }
+                    if (!empty($storeView)) {
+                        $updateDataInSib[ConfigurationHelper::SIB_LANG_ATTRIBUTE] = $storeView;
+                    }
+
+                    if (!empty($billingId)) {
+                        $address = $this->customerAddressRepository->getById($billingId);
+                        $street = $address->getStreet();
+                        $streetValue = '';
+                        foreach ($street as $streetData) {
+                            $streetValue .= $streetData . ' ';
                         }
-                    }
 
-                    $updateDataInSib[ConfigurationHelper::SIB_COMPANY_ATTRIBUTE] = !empty($address->getCompany()) ? $address->getCompany() : '';
-                    $updateDataInSib[ConfigurationHelper::SIB_COUNTRY_ATTRIBUTE] = !empty($address->getCountryId()) ? $address->getCountryId() : '';
-                    $updateDataInSib[ConfigurationHelper::SIB_STREET_ATTRIBUTE] = !empty($streetValue) ? $streetValue : '';
-                    $updateDataInSib[ConfigurationHelper::SIB_POSTCODE_ATTRIBUTE] = !empty($address->getPostcode()) ? $address->getPostcode() : '';
-                    $updateDataInSib[ConfigurationHelper::SIB_REGION_ATTRIBUTE] = !empty($address->getRegion()) ? $address->getRegion()->getRegionCode() : '';
-                    $updateDataInSib[ConfigurationHelper::SIB_CITY_ATTRIBUTE] = !empty($address->getCity()) ? $address->getCity() : '';
+                        $smsValue = !empty($address->getTelephone()) ? $address->getTelephone() : '';
+
+                        $countryId = !empty($address->getCountryId()) ? $address->getCountryId() : '';
+                        if (!empty($smsValue) && !empty($countryId)) {
+                            $countryCode = $this->subscriptionManager->getCountryCode($countryId);
+                            if (!empty($countryCode)) {
+                                $updateDataInSib[ConfigurationHelper::SIB_SMS_ATTRIBUTE] = $this->subscriptionManager->checkMobileNumber($smsValue, $countryCode);
+                            }
+                        }
+
+                        $updateDataInSib[ConfigurationHelper::SIB_COMPANY_ATTRIBUTE] = !empty($address->getCompany()) ? $address->getCompany() : '';
+                        $updateDataInSib[ConfigurationHelper::SIB_COUNTRY_ATTRIBUTE] = !empty($address->getCountryId()) ? $address->getCountryId() : '';
+                        $updateDataInSib[ConfigurationHelper::SIB_STREET_ATTRIBUTE] = !empty($streetValue) ? $streetValue : '';
+                        $updateDataInSib[ConfigurationHelper::SIB_POSTCODE_ATTRIBUTE] = !empty($address->getPostcode()) ? $address->getPostcode() : '';
+                        $updateDataInSib[ConfigurationHelper::SIB_REGION_ATTRIBUTE] = !empty($address->getRegion()) ? $address->getRegion()->getRegionCode() : '';
+                        $updateDataInSib[ConfigurationHelper::SIB_CITY_ATTRIBUTE] = !empty($address->getCity()) ? $address->getCity() : '';
+                    }
+                    $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
+                } catch (\Exception $e) {
+                    $this->debugLogger->error($e->getMessage());
                 }
-                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
             } else {
                 $this->debugLogger->info(__('Subscribe user (admin sync)'));
-                $updateDataInSib[ConfigurationHelper::SIB_CLIENT_ATTRIBUTE] = 0;
-                $storeId = $subscriber->getStoreId();
-                if ($storeId) {
-                    $updateDataInSib[ConfigurationHelper::SIB_STORE_ATTRIBUTE] = $storeId;
-                }
-                $stores = $this->storeManager->getStores(true, false);
-                foreach ($stores as $store) {
-                    if ($store->getId() == $storeId) {
-                        $storeView = $store->getName();
+                try {
+                    $updateDataInSib[ConfigurationHelper::SIB_CLIENT_ATTRIBUTE] = 0;
+                    $storeId = $subscriber->getStoreId();
+                    if ($storeId) {
+                        $updateDataInSib[ConfigurationHelper::SIB_STORE_ATTRIBUTE] = $storeId;
                     }
+                    $stores = $this->storeManager->getStores(true, false);
+                    foreach ($stores as $store) {
+                        if ($store->getId() == $storeId) {
+                            $storeView = $store->getName();
+                        }
+                    }
+                    if (!empty($storeView)) {
+                        $updateDataInSib[ConfigurationHelper::SIB_LANG_ATTRIBUTE] = $storeView;
+                    }
+                    $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
+                } catch (\Exception $e) {
+                    $this->debugLogger->error($e->getMessage());
                 }
-                if (!empty($storeView)) {
-                    $updateDataInSib[ConfigurationHelper::SIB_LANG_ATTRIBUTE] = $storeView;
-                }
-                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
             }
         }
     }

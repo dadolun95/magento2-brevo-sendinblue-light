@@ -94,6 +94,7 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
                         $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, 1);
                     } catch (\Exception $e) {
                         $this->_dataSaveAllowed = false;
+                        return;
                     }
                     if (isset($resOptin['optin_id'])) {
                         $this->configHelper->setContactValue('optin_list_id', $resOptin['optin_id']);
@@ -101,10 +102,11 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
                     }
                 } else {
                     try {
-                        $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, 0);
+                        $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, $value);
                         $this->_dataSaveAllowed = true;
                     } catch (\Exception $e) {
                         $this->_dataSaveAllowed = false;
+                        return;
                     }
                 }
 
@@ -122,10 +124,12 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
                     $this->_dataSaveAllowed = true;
                 } catch (\Exception $e) {
                     $this->_dataSaveAllowed = false;
+                    return;
                 }
             }
         } else {
             $this->_dataSaveAllowed = false;
+            return;
         }
         $this->setValue($value);
     }
