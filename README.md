@@ -1,11 +1,11 @@
-# Sendinblue Magento2 Module <img src="https://avatars.githubusercontent.com/u/168457?s=40&v=4" alt="magento" />
+# Brevo Magento2 Module <img src="https://avatars.githubusercontent.com/u/168457?s=40&v=4" alt="magento" />
 
 ### Dadolun_SibContactSync
 
 ## Features
-Contact Syncronization functionality for Sendinblue - Magento2 integration.
+Contact Syncronization functionality for Brevo (Sendinblue previously) - Magento2 integration.
 
-This module sync all your Magento2 subscribers to Sendinblue.
+This module sync all your Magento2 subscribers to Brevo.
 
 These are the default built in contact attributes:
 - FIRSTNAME
