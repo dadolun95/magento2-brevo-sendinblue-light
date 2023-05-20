@@ -2,7 +2,7 @@
 /**
  * @package     Dadolun_SibContactSync
  * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
- * @license     Open Source License
+ * @license    This code is licensed under MIT license (see LICENSE for details)
  */
 
 namespace Dadolun\SibContactSync\Model;
@@ -115,8 +115,7 @@ class SubscriptionManager {
             return false;
         }
 
-        $sendinConfirmType = $this->configHelper->getContactValue('confirm_type');
-        if ($sendinConfirmType === Configuration::SIB_DUBLE_OPTIN_CONFIRM && ($subscriberStatus === Subscriber::STATUS_UNCONFIRMED || $subscriberStatus === Subscriber::STATUS_NOT_ACTIVE)) {
+        if ($subscriberStatus === Subscriber::STATUS_UNCONFIRMED || $subscriberStatus === Subscriber::STATUS_NOT_ACTIVE) {
             $listId = $this->configHelper->getContactValue('optin_list_id');
             $updateDataInSib[self::DOUBLE_OPTIN_CODE] = self::DOUBLE_OPTIN_ACTIVE_VALUE;
         } else {
@@ -143,7 +142,7 @@ class SubscriptionManager {
 
         try {
             if (!empty($sibUser)) {
-                if ($sendinConfirmType === Configuration::SIB_DUBLE_OPTIN_CONFIRM && $subscriberStatus === Subscriber::STATUS_SUBSCRIBED) {
+                if ($subscriberStatus === Subscriber::STATUS_SUBSCRIBED && in_array(intval($this->configHelper->getContactValue('optin_list_id')), $sibUser->getListIds())) {
                     $sibData["unlinkListIds"] = array_map('intval', explode('|', $this->configHelper->getContactValue('optin_list_id') ?? ''));
                 }
                 $sibClient->updateUser($email, $sibData);

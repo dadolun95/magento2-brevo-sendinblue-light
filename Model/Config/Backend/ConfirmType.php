@@ -2,7 +2,7 @@
 /**
  * @package     Dadolun_SibContactSync
  * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
- * @license     Open Source License
+ * @license    This code is licensed under MIT license (see LICENSE for details)
  */
 
 namespace Dadolun\SibContactSync\Model\Config\Backend;
@@ -110,26 +110,16 @@ class ConfirmType extends Value
             }
 
             if (SibClient::RESPONSE_CODE_OK == $sibClient->getLastResponseCode()) {
-                if ($value === Configuration::SIB_DUBLE_OPTIN_CONFIRM) {
-                    try {
-                        $resOptin = $this->checkFolderListDoubleoptin($sibClient);
-                        $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, 1);
-                    } catch (\Exception $e) {
-                        $this->_dataSaveAllowed = false;
-                        return;
-                    }
-                    if (isset($resOptin['optin_id'])) {
-                        $this->configHelper->setContactValue('optin_list_id', $resOptin['optin_id']);
-                        $this->_dataSaveAllowed = true;
-                    }
-                } else {
-                    try {
-                        $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, $value);
-                        $this->_dataSaveAllowed = true;
-                    } catch (\Exception $e) {
-                        $this->_dataSaveAllowed = false;
-                        return;
-                    }
+                try {
+                    $resOptin = $this->checkFolderListDoubleoptin($sibClient);
+                    $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, $value);
+                } catch (\Exception $e) {
+                    $this->_dataSaveAllowed = false;
+                    return;
+                }
+                if (isset($resOptin['optin_id'])) {
+                    $this->configHelper->setContactValue('optin_list_id', $resOptin['optin_id']);
+                    $this->_dataSaveAllowed = true;
                 }
 
                 try {

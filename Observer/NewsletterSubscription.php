@@ -2,7 +2,7 @@
 /**
  * @package     Dadolun_SibContactSync
  * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
- * @license     Open Source License
+ * @license    This code is licensed under MIT license (see LICENSE for details)
  */
 
 namespace Dadolun\SibContactSync\Observer;
@@ -144,7 +144,7 @@ class NewsletterSubscription implements ObserverInterface
                     }
                     $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
                 } else {
-                    $this->debugLogger->info($subscriberStatus);
+                    $this->debugLogger->info(__('Subscriber status: %1', $subscriberStatus));
                     if (in_array($subscriberStatus, ConfigurationHelper::ALLOWED_SUBSCRIBER_STATUSES)) {
                         $this->debugLogger->info(__('Subscribe user by runtime'));
                         $updateDataInSib[ConfigurationHelper::SIB_CLIENT_ATTRIBUTE] = 0;
@@ -163,8 +163,10 @@ class NewsletterSubscription implements ObserverInterface
                         }
                         $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
                     } else {
-                        $this->debugLogger->info(__('Unsubscribe user by runtime'));
-                        $this->subscriptionManager->unsubscribe($email);
+                        if ($subscriberStatus === ConfigurationHelper::STATUS_UNSUBSCRIBED) {
+                            $this->debugLogger->info(__('Unsubscribe user by runtime'));
+                            $this->subscriptionManager->unsubscribe($email);
+                        }
                     }
                 }
             } else {
