@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package     Dadolun_SibContactSync
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
+ * @license     This code is licensed under MIT license (see LICENSE for details)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+    <topic name="sibSync.contact" request="Dadolun\SibContactSync\Api\Data\SyncInfoInterface">
+        <handler name="sibContactProcessor" type="Dadolun\SibContactSync\Model\Sync\Consumer" method="process" />
+    </topic>
+</config>

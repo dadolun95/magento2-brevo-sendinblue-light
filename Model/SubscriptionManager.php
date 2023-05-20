@@ -115,9 +115,8 @@ class SubscriptionManager {
             return false;
         }
 
-        if ($subscriberStatus === Subscriber::STATUS_UNCONFIRMED || $subscriberStatus === Subscriber::STATUS_NOT_ACTIVE) {
+        if ($subscriberStatus == Subscriber::STATUS_UNCONFIRMED || $subscriberStatus == Subscriber::STATUS_NOT_ACTIVE) {
             $listId = $this->configHelper->getContactValue('optin_list_id');
-            $updateDataInSib[self::DOUBLE_OPTIN_CODE] = self::DOUBLE_OPTIN_ACTIVE_VALUE;
         } else {
             $listId = $this->configHelper->getContactValue('selected_list_data');
         }

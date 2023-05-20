@@ -11,6 +11,7 @@
     <preference for="Dadolun\SibContactSync\Api\SibCountryCodeResourceInterface" type="Dadolun\SibContactSync\Model\ResourceModel\SibCountryCode" />
     <preference for="Dadolun\SibContactSync\Api\SibCountryRepositoryInterface" type="Dadolun\SibContactSync\Model\SibCountryCodeRepository" />
     <preference for="Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface" type="Dadolun\SibContactSync\Model\SibCountryCode" />
+    <preference for="Dadolun\SibContactSync\Api\Data\SyncInfoInterface" type="Dadolun\SibContactSync\Model\Sync\SyncInfo" />
     <type name="Dadolun\SibContactSync\Model\Config\Backend\ConfirmType">
         <arguments>
             <argument name="contactNormalAttributes" xsi:type="array">

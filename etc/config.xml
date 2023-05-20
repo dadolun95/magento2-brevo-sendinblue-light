@@ -10,8 +10,7 @@
     <default>
         <dadolun_sib>
             <sendinblue_contact>
-                <doubleoption_from_name>Sendinblue</doubleoption_from_name>
-                <doubleoption_from_email>no-reply@sendinblue.com</doubleoption_from_email>
+                <sync_type>async</sync_type>
             </sendinblue_contact>
         </dadolun_sib>
     </default>

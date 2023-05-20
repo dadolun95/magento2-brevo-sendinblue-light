@@ -20,7 +20,15 @@
                         <field id="dadolun_sib/sendinblue/api_key_status">1</field>
                     </depends>
                 </field>
-                <field id="sync_old_contacts" translate="button_label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sync_type" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Sync Type</label>
+                    <source_model>Dadolun\SibContactSync\Model\Config\Source\SyncType</source_model>
+                    <depends>
+                        <field id="subscribe_setting">1</field>
+                        <field id="dadolun_sib/sendinblue/api_key_status">1</field>
+                    </depends>
+                </field>
+                <field id="sync_old_contacts" translate="button_label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <button_label>Sync contacts</button_label>
                     <frontend_model>Dadolun\SibContactSync\Block\Adminhtml\Config\SyncContacts</frontend_model>
                     <depends>
