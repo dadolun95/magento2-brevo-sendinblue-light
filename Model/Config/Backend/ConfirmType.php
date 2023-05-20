@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
@@ -10,13 +10,21 @@ namespace Dadolun\SibContactSync\Model\Config\Backend;
 use \Dadolun\SibCore\Helper\SibClientConnector;
 use \Dadolun\SibCore\Model\SibClient;
 use \Dadolun\SibContactSync\Helper\Configuration;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\Value;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Magento\Newsletter\Model\Subscriber;
+use Magento\Framework\Message\ManagerInterface;
 
 /**
  * Class ApiKey
  * @package Dadolun\SibCore\Model\Config\Backend
  */
-class ConfirmType extends \Magento\Framework\App\Config\Value
+class ConfirmType extends Value
 {
 
     const OPTIN_LIST_NAME = 'Temp - DOUBLE OPTIN';
@@ -35,44 +43,51 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
     protected $configHelper;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @var array
      */
     protected $contactNormalAttributes;
 
     /**
      * ConfirmType constructor.
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+     * @param Context $context
+     * @param Registry $registry
+     * @param ScopeConfigInterface $config
+     * @param TypeListInterface $cacheTypeList
      * @param SibClientConnector $sibClientConnector
      * @param Configuration $configHelper
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
+     * @param ManagerInterface $messageManager
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
      * @param array $contactNormalAttributes
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        Context $context,
+        Registry $registry,
+        ScopeConfigInterface $config,
+        TypeListInterface $cacheTypeList,
         SibClientConnector $sibClientConnector,
         Configuration $configHelper,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ManagerInterface $messageManager,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
         array $contactNormalAttributes = [],
         array $data = []
     ) {
         $this->sibClientConnector = $sibClientConnector;
         $this->configHelper = $configHelper;
+        $this->messageManager = $messageManager;
         $this->contactNormalAttributes = $contactNormalAttributes;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 
     /**
-     * @return \Magento\Framework\App\Config\Value|void
-     * @throws \SendinBlue\Client\ApiException
+     * @return Value|void
      */
     public function beforeSave()
     {
@@ -80,12 +95,19 @@ class ConfirmType extends \Magento\Framework\App\Config\Value
         $value = (string)$this->getValue();
         $apiKey = $this->configHelper->getValue('api_key_v3');
         if (!is_null($apiKey) && $apiKey !== '') {
-            /**
-             * @var \Dadolun\SibCore\Model\SibClient $sibClient
-             */
-            $sibClient = $this->sibClientConnector->createSibClient($apiKey);
-            $sibClient->setApiKey($apiKey);
-            $sibClient->getAccount();
+
+            try {
+                /**
+                 * @var SibClient $sibClient
+                 */
+                $sibClient = $this->sibClientConnector->createSibClient($apiKey);
+                $sibClient->setApiKey($apiKey);
+                $sibClient->getAccount();
+            } catch (\SendinBlue\Client\ApiException $e) {
+                $this->messageManager->addErrorMessage(__('An error occurred retrieving Sendinblue Account. Please check your API key.'));
+                $this->_dataSaveAllowed = false;
+                return;
+            }
 
             if (SibClient::RESPONSE_CODE_OK == $sibClient->getLastResponseCode()) {
                 if ($value === Configuration::SIB_DUBLE_OPTIN_CONFIRM) {

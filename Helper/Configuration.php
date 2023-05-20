@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
@@ -80,7 +80,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
     public function getDefaultSenderFromEmail($scopeId = 0) {
         return $this->scopeConfig->getValue(
             'trans_email/ident_sales/email',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            ScopeInterface::SCOPE_STORE,
             $scopeId
         );
     }
@@ -92,7 +92,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
     public function getDefaultSenderFromName($scopeId = 0) {
         return $this->scopeConfig->getValue(
             'trans_email/ident_sales/name',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            ScopeInterface::SCOPE_STORE,
             $scopeId
         );
     }

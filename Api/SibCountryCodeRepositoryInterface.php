@@ -1,11 +1,14 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Api;
+
+use \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Interface SibCountryCodeRepositoryInterface
@@ -14,26 +17,26 @@ namespace Dadolun\SibContactSync\Api;
 interface SibCountryCodeRepositoryInterface
 {
     /**
-     * @param \Magento\Framework\Model\AbstractModel $menu
-     * @return \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface|null
+     * @param AbstractModel $menu
+     * @return SibCountryCodeInterface|null
      */
-    public function save(\Magento\Framework\Model\AbstractModel $menu);
+    public function save(AbstractModel $menu);
 
     /**
      * @param $countryCodeId
-     * @return \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface|null
+     * @return SibCountryCodeInterface|null
      */
     public function getById($countryCodeId);
 
     /**
      * @param $isoCode
-     * @return \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface|null
+     * @return SibCountryCodeInterface|null
      */
     public function getByIsoCode($isoCode);
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $menu
+     * @param AbstractModel $menu
      * @return void
      */
-    public function delete(\Magento\Framework\Model\AbstractModel $menu);
+    public function delete(AbstractModel $menu);
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
@@ -10,12 +10,16 @@ namespace Dadolun\SibContactSync\Model;
 use \Dadolun\SibCore\Helper\SibClientConnector;
 use \Dadolun\SibContactSync\Helper\Configuration;
 use \Dadolun\SibCore\Model\SibClient;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Newsletter\Model\ResourceModel\Subscriber\CollectionFactory as NewsletterSubscriberCollectionFactory;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Email\Model\Template\Config\Reader as EmailTemplateReader;
 use \Dadolun\SibContactSync\Model\SibCountryCodeRepository;
 use Magento\Newsletter\Model\Subscriber;
+use Magento\Framework\Message\ManagerInterface;
 
 /**
  * Class SubscriptionManager
@@ -64,14 +68,20 @@ class SubscriptionManager {
     protected $emailTemplateReader;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * SubscriptionManager constructor.
      * @param NewsletterSubscriberCollectionFactory $subscriberCollectionFactory
      * @param SibClientConnector $sibClientConnector
      * @param Configuration $configHelper
      * @param CustomerRepositoryInterface $customerRepository
-     * @param \Dadolun\SibContactSync\Model\SibCountryCodeRepository $sibCountryCodeRepository
+     * @param SibCountryCodeRepository $sibCountryCodeRepository
      * @param StoreManagerInterface $storeManager
      * @param EmailTemplateReader $emailTemplateReader
+     * @param ManagerInterface $messageManager
      */
     public function __construct(
         NewsletterSubscriberCollectionFactory $subscriberCollectionFactory,
@@ -80,7 +90,8 @@ class SubscriptionManager {
         CustomerRepositoryInterface $customerRepository,
         SibCountryCodeRepository $sibCountryCodeRepository,
         StoreManagerInterface $storeManager,
-        EmailTemplateReader $emailTemplateReader
+        EmailTemplateReader $emailTemplateReader,
+        ManagerInterface $messageManager
     ) {
         $this->subscriberCollectionFactory = $subscriberCollectionFactory;
         $this->sibClientConnector = $sibClientConnector;
@@ -89,14 +100,14 @@ class SubscriptionManager {
         $this->sibCountryCodeRepository = $sibCountryCodeRepository;
         $this->storeManager = $storeManager;
         $this->emailTemplateReader = $emailTemplateReader;
+        $this->messageManager = $messageManager;
     }
 
     /**
      * @param $email
      * @param $data
      * @param int $subscriberStatus
-     * @return bool
-     * @throws \SendinBlue\Client\ApiException
+     * @return bool|void
      */
     public function subscribe($email, $data, $subscriberStatus = Subscriber::STATUS_SUBSCRIBED)
     {
@@ -113,7 +124,7 @@ class SubscriptionManager {
         }
 
         /**
-         * @var \Dadolun\SibCore\Model\SibClient $sibClient
+         * @var SibClient $sibClient
          */
         $apiKey = $this->configHelper->getValue('api_key_v3');
         $sibClient = $this->sibClientConnector->createSibClient($apiKey);
@@ -126,45 +137,52 @@ class SubscriptionManager {
 
         try {
             $sibUser = $sibClient->getUser($email);
-        } catch (\Exception $e) {
+        } catch (\SendinBlue\Client\ApiException $e) {
             $sibUser = [];
         }
 
-        if (!empty($sibUser)) {
-            if ($sendinConfirmType === Configuration::SIB_DUBLE_OPTIN_CONFIRM && $subscriberStatus === Subscriber::STATUS_SUBSCRIBED) {
-                $sibData["unlinkListIds"] = array_map('intval', explode('|', $this->configHelper->getContactValue('optin_list_id') ?? ''));
+        try {
+            if (!empty($sibUser)) {
+                if ($sendinConfirmType === Configuration::SIB_DUBLE_OPTIN_CONFIRM && $subscriberStatus === Subscriber::STATUS_SUBSCRIBED) {
+                    $sibData["unlinkListIds"] = array_map('intval', explode('|', $this->configHelper->getContactValue('optin_list_id') ?? ''));
+                }
+                $sibClient->updateUser($email, $sibData);
+            } else {
+                $sibData["email"] = $email;
+                $sibData["updateEnabled"] = true;
+                $sibData["emailBlacklisted"] = false;
+                $sibData["internalUserHistory"] = array(
+                    "action" => self::SUBSCRIPTION_ACTION,
+                    "id" => 1,
+                    "name" => self::SUBSCRIPTION_ACTION_NAME
+                );
+                $sibClient->createUser($sibData);
             }
-            $sibClient->updateUser($email, $sibData);
-        } else {
-            $sibData["email"] = $email;
-            $sibData["updateEnabled"] = true;
-            $sibData["emailBlacklisted"] = false;
-            $sibData["internalUserHistory"] = array(
-                "action" => self::SUBSCRIPTION_ACTION,
-                "id" => 1,
-                "name" => self::SUBSCRIPTION_ACTION_NAME
-            );
-            $sibClient->createUser($sibData);
+        } catch (\SendinBlue\Client\ApiException $e) {
+            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Sendinblue.'));
         }
     }
 
     /**
      * @param $email
-     * @return bool
-     * @throws \SendinBlue\Client\ApiException
+     * @return bool|void
      */
     public function unsubscribe($email) {
         if (!$this->configHelper->isSyncEnabled()) {
             return false;
         }
 
-        /**
-         * @var \Dadolun\SibCore\Model\SibClient $sibClient
-         */
-        $sibClient = $this->sibClientConnector->createSibClient();
-        $apiKey = $this->configHelper->getValue('api_key_v3');
-        $sibClient->setApiKey($apiKey);
-        $sibClient->updateUser($email, array('emailBlacklisted' => true, "smsBlacklisted" => true));
+        try {
+            /**
+             * @var SibClient $sibClient
+             */
+            $sibClient = $this->sibClientConnector->createSibClient();
+            $apiKey = $this->configHelper->getValue('api_key_v3');
+            $sibClient->setApiKey($apiKey);
+            $sibClient->updateUser($email, array('emailBlacklisted' => true, "smsBlacklisted" => true));
+        } catch (\SendinBlue\Client\ApiException $e) {
+            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Sendinblue.'));
+        }
     }
 
     /**
@@ -224,9 +242,9 @@ class SubscriptionManager {
 
     /**
      * @param $customerId
-     * @return \Magento\Customer\Api\Data\CustomerInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return CustomerInterface
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getCustomer($customerId) {
         return $this->customerRepository->getById($customerId);
@@ -235,7 +253,7 @@ class SubscriptionManager {
     /**
      * @param $isoCode
      * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function getCountryCode($isoCode)
     {

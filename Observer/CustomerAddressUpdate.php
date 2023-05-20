@@ -1,14 +1,16 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Observer;
 
-use Dadolun\SibContactSync\Helper\Configuration as ConfigurationHelper;
-use Dadolun\SibContactSync\Model\SubscriptionManager;
+use \Dadolun\SibContactSync\Helper\Configuration as ConfigurationHelper;
+use \Dadolun\SibContactSync\Model\SubscriptionManager;
+use Magento\Customer\Model\Address;
+use Magento\Customer\Model\Customer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use \Dadolun\SibCore\Helper\DebugLogger;
@@ -30,7 +32,7 @@ class CustomerAddressUpdate implements ObserverInterface
     protected $debugLogger;
 
     /**
-     * @var \Dadolun\SibContactSync\Observer\ConfigurationHelper
+     * @var ConfigurationHelper
      */
     protected $configHelper;
 
@@ -38,7 +40,7 @@ class CustomerAddressUpdate implements ObserverInterface
      * CustomerRegistration constructor.
      * @param SubscriptionManager $subscriptionManager
      * @param DebugLogger $debugLogger
-     * @param \Dadolun\SibContactSync\Observer\ConfigurationHelper $configHelper
+     * @param ConfigurationHelper $configHelper
      */
     public function __construct(
         SubscriptionManager $subscriptionManager,
@@ -53,8 +55,6 @@ class CustomerAddressUpdate implements ObserverInterface
 
     /**
      * @param Observer $observer
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \SendinBlue\Client\ApiException
      */
     public function execute(Observer $observer)
     {
@@ -62,11 +62,11 @@ class CustomerAddressUpdate implements ObserverInterface
             $this->debugLogger->info(__('CustomerAddressUpdate observer START'));
             $updateDataInSib = array();
             /**
-             * @var \Magento\Customer\Model\Address $address
+             * @var Address $address
              */
             $address = $observer->getCustomerAddress();
             /**
-             * @var $customer \Magento\Customer\Model\Customer
+             * @var $customer Customer
              */
             $customer = $address->getCustomer();
             $billing = $address->getIsDefaultBilling();

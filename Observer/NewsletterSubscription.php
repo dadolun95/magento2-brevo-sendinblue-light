@@ -1,16 +1,18 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Observer;
 
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use \Dadolun\SibContactSync\Model\SubscriptionManager;
 use Magento\Customer\Api\AddressRepositoryInterface as CustomerAddressRepository;
+use Magento\Newsletter\Model\Subscriber;
 use Magento\Store\Model\StoreManagerInterface;
 use \Dadolun\SibCore\Helper\DebugLogger;
 use \Dadolun\SibContactSync\Helper\Configuration as ConfigurationHelper;
@@ -72,10 +74,6 @@ class NewsletterSubscription implements ObserverInterface
 
     /**
      * @param Observer $observer
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \SendinBlue\Client\ApiException
-     * @throws \Zend_Mail_Exception
      */
     public function execute(Observer $observer)
     {
@@ -83,7 +81,7 @@ class NewsletterSubscription implements ObserverInterface
             $this->debugLogger->info(__('NewsletterSubscription observer START'));
             $updateDataInSib = [];
             /**
-             * @var \Magento\Newsletter\Model\Subscriber $subscriber
+             * @var Subscriber $subscriber
              */
             $subscriber = $observer->getEvent()->getSubscriber();
             $email = $subscriber->getSubscriberEmail();
@@ -94,7 +92,7 @@ class NewsletterSubscription implements ObserverInterface
                 if ($subscriber->getCustomerId() && in_array($subscriberStatus, ConfigurationHelper::ALLOWED_SUBSCRIBER_STATUSES)) {
                     $this->debugLogger->info(__('Subscribe user by runtime'));
                     /**
-                     * @var \Magento\Customer\Api\Data\CustomerInterface $customer
+                     * @var CustomerInterface $customer
                      */
                     $customer = $this->subscriptionManager->getCustomer($subscriber->getCustomerId());
                     $billingId = !empty($customer->getDefaultBilling()) ? $customer->getDefaultBilling() : '';

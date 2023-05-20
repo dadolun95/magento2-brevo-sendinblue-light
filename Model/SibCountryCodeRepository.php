@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
@@ -14,6 +14,8 @@ use \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterfaceFactory;
 use \Dadolun\SibContactSync\Api\SibCountryCodeRepositoryInterface;
 use \Dadolun\SibContactSync\Api\SibCountryCodeResourceInterface;
 use \Dadolun\SibContactSync\Model\ResourceModel\SibCountryCode\CollectionFactory as SibCountryCodeCollectionFactory;
+use \Dadolun\SibContactSync\Model\ResourceModel\SibCountryCode\Collection;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Class SibCountryCodeRepository
@@ -54,7 +56,7 @@ class SibCountryCodeRepository implements SibCountryCodeRepositoryInterface {
 
     /**
      * @param $sibCountryCodeId
-     * @return \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface|ResourceModel\SibCountryCode\Collection|null
+     * @return AbstractModel|SibCountryCodeInterface|Collection|null
      * @throws NoSuchEntityException
      */
     public function getById($sibCountryCodeId)
@@ -71,7 +73,7 @@ class SibCountryCodeRepository implements SibCountryCodeRepositoryInterface {
 
     /**
      * @param $isoCode
-     * @return \Dadolun\SibContactSync\Api\Data\SibCountryCodeInterface|ResourceModel\SibCountryCode\Collection|null
+     * @return AbstractModel|SibCountryCodeInterface|null
      * @throws NoSuchEntityException
      */
     public function getByIsoCode($isoCode)
@@ -89,11 +91,11 @@ class SibCountryCodeRepository implements SibCountryCodeRepositoryInterface {
     }
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $menu
-     * @return \Magento\Framework\Model\AbstractModel|SibCountryCodeInterface|null
+     * @param AbstractModel $menu
+     * @return AbstractModel|SibCountryCodeInterface|null
      * @throws CouldNotSaveException
      */
-    public function save(\Magento\Framework\Model\AbstractModel $menu)
+    public function save(AbstractModel $menu)
     {
         try {
             $this->sibCountryCodeResource->save($menu);
@@ -107,10 +109,10 @@ class SibCountryCodeRepository implements SibCountryCodeRepositoryInterface {
     }
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $menu
+     * @param AbstractModel $menu
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function delete(\Magento\Framework\Model\AbstractModel $menu)
+    public function delete(AbstractModel $menu)
     {
         try {
             $this->sibCountryCodeResource->delete($menu);

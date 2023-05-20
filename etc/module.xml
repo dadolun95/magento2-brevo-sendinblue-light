@@ -2,13 +2,13 @@
 <!--
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Dadolun_SibContactSync" setup_version="1.0.1">
+    <module name="Dadolun_SibContactSync" setup_version="1.0.2">
         <sequence>
             <module name="Magento_Newsletter" />
             <module name="Dadolun_SibCore" />

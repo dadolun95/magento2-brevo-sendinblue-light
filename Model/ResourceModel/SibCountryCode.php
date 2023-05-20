@@ -1,13 +1,13 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Model\ResourceModel;
 
-use Dadolun\SibContactSync\Api\SibCountryCodeResourceInterface;
+use \Dadolun\SibContactSync\Api\SibCountryCodeResourceInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**

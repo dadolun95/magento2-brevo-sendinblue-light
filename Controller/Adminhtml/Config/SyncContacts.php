@@ -1,15 +1,18 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Controller\Adminhtml\Config;
 
-use Dadolun\SibContactSync\Model\SubscriptionManager;
-use Dadolun\SibCore\Helper\DebugLogger;
+use \Dadolun\SibContactSync\Model\SubscriptionManager;
+use \Dadolun\SibCore\Helper\DebugLogger;
+use Magento\Backend\App\Action\Context;
 use Magento\Customer\Api\AddressRepositoryInterface as CustomerAddressRepository;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use \Dadolun\SibContactSync\Helper\Configuration as ConfigurationHelper;
 use Magento\Newsletter\Model\ResourceModel\Subscriber\CollectionFactory as SubscriberCollectionFactory;
@@ -49,7 +52,7 @@ class SyncContacts extends \Magento\Backend\App\Action
     protected $customerAddressRepository;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
@@ -60,7 +63,7 @@ class SyncContacts extends \Magento\Backend\App\Action
 
     /**
      * SyncContacts constructor.
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Context $context
      * @param JsonFactory $resultJsonFactory
      * @param SubscriberCollectionFactory $subscriberCollectionFactory
      * @param ConfigurationHelper $configHelper
@@ -70,7 +73,7 @@ class SyncContacts extends \Magento\Backend\App\Action
      * @param DebugLogger $debugLogger
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
+        Context $context,
         JsonFactory $resultJsonFactory,
         SubscriberCollectionFactory $subscriberCollectionFactory,
         ConfigurationHelper $configHelper,
@@ -92,7 +95,7 @@ class SyncContacts extends \Magento\Backend\App\Action
     /**
      * Check whether vat is valid
      *
-     * @return \Magento\Framework\Controller\Result\Json
+     * @return Json
      */
     public function execute()
     {
@@ -105,7 +108,7 @@ class SyncContacts extends \Magento\Backend\App\Action
             $result['message'] = __('Something went wrong syncing your contacts, enable the debug logger and check api responses');
         }
 
-        /** @var \Magento\Framework\Controller\Result\Json $resultJson */
+        /** @var Json $resultJson */
         $resultJson = $this->resultJsonFactory->create();
         return $resultJson->setData([
             'valid' => (int)$result['valid'],
@@ -113,11 +116,6 @@ class SyncContacts extends \Magento\Backend\App\Action
         ]);
     }
 
-    /**
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \SendinBlue\Client\ApiException
-     */
     private function syncContacts() {
         /**
          * @var Subscriber[] $subscribers
@@ -132,7 +130,7 @@ class SyncContacts extends \Magento\Backend\App\Action
                 $this->debugLogger->info(__('Subscribe user (admin sync)'));
                 try {
                     /**
-                     * @var \Magento\Customer\Api\Data\CustomerInterface $customer
+                     * @var CustomerInterface $customer
                      */
                     $customer = $this->subscriptionManager->getCustomer($subscriber->getCustomerId());
                     $billingId = !empty($customer->getDefaultBilling()) ? $customer->getDefaultBilling() : '';

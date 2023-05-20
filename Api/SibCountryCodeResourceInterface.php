@@ -1,11 +1,13 @@
 <?php
 /**
  * @package     Dadolun_SibContactSync
- * @copyright   Copyright (c) 2021 Dadolun (https://github.com/dadolun95)
+ * @copyright   Copyright (c) 2023 Dadolun (https://www.dadolun.com)
  * @license     Open Source License
  */
 
 namespace Dadolun\SibContactSync\Api;
+
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Interface SibCountryCodeResourceInterface
@@ -14,22 +16,22 @@ namespace Dadolun\SibContactSync\Api;
 interface SibCountryCodeResourceInterface
 {
     /**
-     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return mixed
      */
-    public function save(\Magento\Framework\Model\AbstractModel $object);
+    public function save(AbstractModel $object);
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @param $value
      * @param null $field
      * @return mixed
      */
-    public function load(\Magento\Framework\Model\AbstractModel $object, $value, $field = null);
+    public function load(AbstractModel $object, $value, $field = null);
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return mixed
      */
-    public function delete(\Magento\Framework\Model\AbstractModel $object);
+    public function delete(AbstractModel $object);
 }
