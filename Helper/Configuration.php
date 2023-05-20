@@ -31,10 +31,6 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
     const SIB_STREET_ATTRIBUTE = 'STREET';
     const SIB_POSTCODE_ATTRIBUTE = 'POSTCODE';
 
-    const SIB_NO_CONFIRM = 'nocon';
-    const SIB_SIMPLEMAIL_CONFIRM = 'simplemail';
-    const SIB_DUBLE_OPTIN_CONFIRM = 'doubleoptin';
-
     const CONFIG_GROUP_CONTACT_PATH = 'sendinblue_contact';
     const MODULE_CONTACT_CONFIG_PATH = self::CONFIG_SECTION_PATH . '/' . self::CONFIG_GROUP_CONTACT_PATH;
 
@@ -43,6 +39,8 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
         Subscriber::STATUS_NOT_ACTIVE,
         Subscriber::STATUS_UNCONFIRMED
     ];
+
+    const STATUS_UNSUBSCRIBED = Subscriber::STATUS_UNSUBSCRIBED;
 
     /**
      * @param $val
