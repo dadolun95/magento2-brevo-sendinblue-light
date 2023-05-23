@@ -5,11 +5,12 @@
  * @license    This code is licensed under MIT license (see LICENSE for details)
  */
 
+use \Dadolun\SibContactSync\Block\Adminhtml\Config\SyncContacts;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
 /** @var SyncContacts $block */
 /** @var SecureHtmlRenderer $secureRenderer */
-
-use \Dadolun\SibContactSync\Block\Adminhtml\Config\SyncContacts;
-use Magento\Framework\View\Helper\SecureHtmlRenderer; ?>
+?>
 
 <?php
 $ajaxUrl = $block->escapeJs($block->getAjaxUrl());
