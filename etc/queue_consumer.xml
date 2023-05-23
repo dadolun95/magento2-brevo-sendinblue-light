@@ -7,5 +7,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
-    <consumer name="sibContactProcessor" queue="sib" handler="Dadolun\SibContactSync\Model\Sync\Consumer::process" />
+    <consumer name="sibContactProcessor" queue="sibcontact" connection="db" handler="Dadolun\SibContactSync\Model\Sync\Consumer::process" />
 </config>

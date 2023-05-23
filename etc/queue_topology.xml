@@ -8,6 +8,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
     <exchange name="magento" connection="db" type="topic">
-        <binding id="sibContactSyncBinding" destinationType="queue" topic="sibSync.contact" destination="sib"/>
+        <binding id="sibContactSyncBinding" destinationType="queue" topic="sibSync.contact" destination="sibcontact"/>
     </exchange>
 </config>

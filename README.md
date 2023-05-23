@@ -2,6 +2,8 @@
 
 ### Dadolun_SibContactSync
 
+[![Latest Stable Version](https://poser.pugx.org/dadolun95/magento2-sib-contact-sync/v/stable)](https://packagist.org/packages/dadolun95/magento2-sib-contact-sync)
+
 ## Features
 Contact Syncronization functionality for Brevo (Sendinblue previously) - Magento2 integration.
 
@@ -21,8 +23,10 @@ These are the default built in contact attributes:
 - STORE_ID (subscribed customer only)
 
 
-Double optin and email confirmation are demanded to Magento2 (Different behavior from the official module).
+Double optin and email confirmation are demanded to Magento2.
 
+## Compatibility
+Magento CE(EE) 2.4.4, 2.4.5, 2.4.6
 
 ## Installation
 You can install this module adding it on app/code folder or with composer.

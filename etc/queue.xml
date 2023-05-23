@@ -8,6 +8,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/queue.xsd">
     <broker topic="sibSync.contact" exchange="magento">
-        <queue name="sib" consumer="sibContactProcessor" handler="Dadolun\SibContactSync\Model\Sync\Consumer::process"/>
+        <queue name="sibcontact" consumer="sibContactProcessor" handler="Dadolun\SibContactSync\Model\Sync\Consumer::process"/>
     </broker>
 </config>
