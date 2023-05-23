@@ -106,7 +106,7 @@ class SelectedListData implements ArrayInterface
                     }
                 }
             } catch (ApiException $e) {
-                $this->messageManager->addErrorMessage(__('An error occurred retrieving subscription lists from Sendinblue via API, please check your API key.'));
+                $this->messageManager->addErrorMessage(__('An error occurred retrieving subscription lists from Brevo via API, please check your API key.'));
             }
         }
         return $this->sibLists;

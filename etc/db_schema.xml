@@ -8,7 +8,7 @@
 -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="sendinblue_country_codes" resource="default" engine="innodb" comment="Sendinblue Country Codes">
+    <table name="sendinblue_country_codes" resource="default" engine="innodb" comment="Brevo Country Codes">
         <column xsi:type="int" name="sendinblue_country_code_id" unsigned="true" nullable="false" identity="true"
                 comment="Country Code ID"/>
         <column xsi:type="varchar" name="iso_code" nullable="true" length="2"

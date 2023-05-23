@@ -157,7 +157,7 @@ class SubscriptionManager {
                 $sibClient->createUser($sibData);
             }
         } catch (\SendinBlue\Client\ApiException $e) {
-            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Sendinblue.'));
+            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Brevo.'));
         }
     }
 
@@ -179,7 +179,7 @@ class SubscriptionManager {
             $sibClient->setApiKey($apiKey);
             $sibClient->updateUser($email, array('emailBlacklisted' => true, "smsBlacklisted" => true));
         } catch (\SendinBlue\Client\ApiException $e) {
-            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Sendinblue.'));
+            $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Brevo.'));
         }
     }
 

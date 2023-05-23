@@ -1,6 +1,6 @@
 {
     "name": "dadolun95/magento2-sib-contact-sync",
-    "description": "Magento2 Sendinblue Contact Sync Integration Module",
+    "description": "Magento2 Brevo (Sendinblue previously) Contact Sync Integration Module",
     "type": "magento2-module",
     "version": "1.0.4",
     "require": {

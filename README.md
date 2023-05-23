@@ -73,9 +73,9 @@ php bin/magento setup:di:compile
 ```
 
 ##### CONFIGURATION
-You must enable the contact sync from "Stores > Configurations > Dadolun > Sendinblue > Contact Sync" section.
-The module provides a "Sync contact" CTA on adminhtml that move all existing contacts to Sendinblue (only new subscribers are synced on runtime).
-Since sync functionality is enabled two Sendinblue lists are created:
+You must enable the contact sync from "Stores > Configurations > Dadolun > Brevo > Contact Sync" section.
+The module provides a "Sync contact" CTA on adminhtml that move all existing contacts to Brevo (only new subscribers are synced on runtime).
+Since sync functionality is enabled two Brevo lists are created:
 - [Magento Optin Form] > Temp - DOUBLE OPTIN (contacts that need confirmation are moved here temporarely)
 - [magento] > subscriptions
 
