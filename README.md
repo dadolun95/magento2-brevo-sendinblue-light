@@ -46,10 +46,29 @@ php bin/magento setup:di:compile
 
 ##### CONFIGURATION
 You must enable the contact sync from "Stores > Configurations > Dadolun > Brevo > Contact Sync" section.
-The module provides a "Sync contact" CTA on adminhtml that move all existing contacts to Brevo (only new subscribers are synced on runtime).
+The module provides a "Sync contacts" CTA on adminhtml that move all existing contacts to Brevo (only new subscribers are synced on runtime).
 Since sync functionality is enabled two Brevo lists are created:
 - [Magento Optin Form] > Temp - DOUBLE OPTIN (contacts that need confirmation are moved here temporarely)
 - [magento] > subscriptions
+Pay attention to the "Sync Type" configuration, you must choose between "Async" and "Sync" mode.
+- "Sync" mode (not recommended) will create or update subscribers data on Brevo synchronously at each magento2 event (subscription update / customer address save) making an API call to Brevo
+- "Async" mode (recommended) use Magento2 message queue system with a dedicated MySQL-operated queue ([See here message queue configuration guide](https://experienceleague.adobe.com/docs/commerce-operations/configuration-guide/message-queues/manage-message-queues.html?lang=en)) so you need to configure also magento to use consumer properly updating your app/etc/env.php file (something like that):
+```
+...
+    'cron_consumers_runner' => [
+        'cron_run' => true,
+        'max_messages' => 1000,
+        'consumers' => [
+            'sibContactProcessor',
+            'sibOrderProcessor',
+        ]
+    ],
+...
+```
+The "Sync contacts" CTA use Magento2 message queue system. Clicking "Sync contacts" you'll only add a complete subscriber list synchronization request on queue. So, if you set up "Sync" as "Sync Type" and you've not configured message queue system on your Magento installation, you will need to run this command from your cli each time you want to perform a "Contacts Sync" request from adminhtml:
+```
+php bin/magento queue:consumers:start sibContactProcessor
+```
 
 ## Contributing
 Contributions are very welcome. In order to contribute, please fork this repository and submit a [pull request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
