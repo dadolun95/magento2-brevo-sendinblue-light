@@ -23,6 +23,7 @@
                 <field id="sync_type" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Sync Type</label>
                     <source_model>Dadolun\SibContactSync\Model\Config\Source\SyncType</source_model>
+                    <backend_model>Dadolun\SibContactSync\Model\Config\Backend\ConfirmType</backend_model>
                     <depends>
                         <field id="subscribe_setting">1</field>
                         <field id="dadolun_sib/sendinblue/api_key_status">1</field>

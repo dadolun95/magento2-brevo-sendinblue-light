@@ -112,7 +112,6 @@ class ConfirmType extends Value
             if (SibClient::RESPONSE_CODE_OK == $sibClient->getLastResponseCode()) {
                 try {
                     $resOptin = $this->checkFolderListDoubleoptin($sibClient);
-                    $this->configHelper->setPathValue(Subscriber::XML_PATH_CONFIRMATION_FLAG, $value);
                 } catch (\Exception $e) {
                     $this->_dataSaveAllowed = false;
                     return;
