@@ -22,7 +22,7 @@
                 <item name="COMPANY" xsi:type="string">text</item>
                 <item name="CITY" xsi:type="string">text</item>
                 <item name="COUNTRY_ID" xsi:type="string">text</item>
-                <item name="POSTCODE" xsi:type="string">text</item>
+                <item name="POSTCODE" xsi:type="string">float</item>
                 <item name="STREET" xsi:type="string">text</item>
                 <item name="REGION" xsi:type="string">text</item>
                 <item name="STORE_ID" xsi:type="string">float</item>
