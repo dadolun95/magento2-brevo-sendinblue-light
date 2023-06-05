@@ -1,7 +1,7 @@
 # Brevo (formerly Sendinblue) - Magento2 integration module (light) <img src="https://avatars.githubusercontent.com/u/168457?s=40&v=4" alt="magento" /> 
 
-###This module is direct dependency of a [more specific, extended integration module](https://github.com/dadolun95/magento2-sib-order-sync) (always open source).
-###Install this extension only if you need to synchronize subscribers to Brevo and don't need order synchronization and cart events tracking.
+### This module is direct dependency of a [more specific, extended integration module](https://github.com/dadolun95/magento2-sib-order-sync) (always open source).
+### Install this extension only if you need to synchronize subscribers to Brevo and don't need order synchronization and cart events tracking.
 
 [![Latest Stable Version](https://poser.pugx.org/dadolun95/magento2-sib-contact-sync/v/stable)](https://packagist.org/packages/dadolun95/magento2-sib-contact-sync)
 
