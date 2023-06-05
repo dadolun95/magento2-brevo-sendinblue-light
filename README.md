@@ -32,20 +32,20 @@ php bin/magento setup:di:compile
 
 ##### CONFIGURATION
 You must enable the module from "Stores > Configurations > Dadolun > Brevo > General" section adding you Brevo API key:
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/99b868ef-ecd8-46fa-8d40-2ceb143573ba)
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/69a5cce9-a74f-45fb-a646-1689fd1c456d)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/99b868ef-ecd8-46fa-8d40-2ceb143573ba)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/69a5cce9-a74f-45fb-a646-1689fd1c456d)
 With the debugger option enabled the module will log each API v3 call result and response code and also observer calls on a dedicated file localed on /var/log/sendinblue-integration.log file.
 Remember that letting the debugger enabled on production enviroment can slow down the website.
 
 Enable Brevo visitor tracking in order to register each customer pageview on Brevo via API (always synchronous and client-side):
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/78a1ab0c-520c-48e4-a8e2-c9e6adfed62a)
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/06359428-c2ed-4480-872d-ffe0b7dfed51)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/78a1ab0c-520c-48e4-a8e2-c9e6adfed62a)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/06359428-c2ed-4480-872d-ffe0b7dfed51)
 Remember to enable tracking on Brevo, then copy you client key from the js snippet on Magento configurations:
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/ded74101-cc62-4499-9c2c-5afd8853880e)
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/3d106cba-4807-43c3-885f-ea78a9b80ff3)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/ded74101-cc62-4499-9c2c-5afd8853880e)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/3d106cba-4807-43c3-885f-ea78a9b80ff3)
 
 You must enable contact sync after the initial setup for newsletter subsription synchronization on Brevo:
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/2d2a4ded-52d6-4b60-844c-aa946694df1f)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/2d2a4ded-52d6-4b60-844c-aa946694df1f)
 Choose between "Sync" and "Async" Synchronization type.
 - "Sync" mode (not recommended) will create or update subscriber data on Brevo synchronously at each magento2 event (subscription update / order update) making an API call to Brevo
 - "Async" mode (recommended) use Magento2 message queue system with a dedicated MySQL-operated queue ([See here message queue configuration guide](https://experienceleague.adobe.com/docs/commerce-operations/configuration-guide/message-queues/manage-message-queues.html?lang=en)) so you need to configure also magento to use consumer properly updating your app/etc/env.php file (something like that):
@@ -71,14 +71,14 @@ Since Contact synchronization functionality is enabled two Brevo lists are creat
 - [magento] > subscriptions
 Complete the contact sync configuration choosing the Brevo list where you want to synchronize your contacts (subscriptions created list is recommended).
 You can also create new lists and folders on Brevo and select it differently for each Magento store configured (Ex: subscriptions_USA for a website working in United States, and subscriptions_EU for a website working in Europe).
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/76e606ff-7de5-42c6-8075-e069b762c00a)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/76e606ff-7de5-42c6-8075-e069b762c00a)
 
 ##### SMTP CONFIGURATION
 For Magento 2.4.4 and Magento 2.4.5 you can install [Mageplaza](https://www.mageplaza.com/magento-2-smtp/) or [Magepal](https://github.com/magepal/magento2-gmail-smtp-app) SMTP modules.
 Use Magento core SMTP configuration feature for 2.4.6 and newer versions instead.
 Brevo SMTP settings are located on "Transactional > Settings" section:
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/82af3caa-af3c-4ad9-96ee-caaa5c1804c0)
-![image](https://github.com/dadolun95/magento2-sib-order-sync/assets/8927461/25e2eb89-4139-4f44-919d-16e5a228d085)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/82af3caa-af3c-4ad9-96ee-caaa5c1804c0)
+![image](https://github.com/dadolun95/magento2-brevo-sendinblue/assets/8927461/25e2eb89-4139-4f44-919d-16e5a228d085)
 
 
 ## Contributing
