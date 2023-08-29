@@ -76,7 +76,7 @@ class SyncContacts extends Action
 
             /** @var SyncInfoInterface $dataObject */
             $dataObject = $this->syncInfoFactory->create(
-                $this->storeManager->getStore()->getId(),
+                $this->getRequest()->getParam("store") ? $this->getRequest()->getParam("store") : 0,
                 SyncInfoInterface::TOTAL_SYNC_TYPE,
                 ''
             );

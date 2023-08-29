@@ -44,18 +44,20 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
 
     /**
      * @param $val
+     * @param null $scopeCode
      * @return mixed
      */
-    public function getContactValue($val) {
-        return $this->scopeConfig->getValue(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE);
+    public function getContactValue($val, $scopeCode = null) {
+        return $this->scopeConfig->getValue(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE, $scopeCode);
     }
 
     /**
      * @param $val
+     * @param $scopeCode
      * @return bool
      */
-    public function getContactFlag($val) {
-        return $this->scopeConfig->isSetFlag(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE);
+    public function getContactFlag($val, $scopeCode = null) {
+        return $this->scopeConfig->isSetFlag(self::MODULE_CONTACT_CONFIG_PATH . '/' . $val, ScopeInterface::SCOPE_STORE, $scopeCode);
     }
 
     /**

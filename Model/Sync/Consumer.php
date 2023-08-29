@@ -129,7 +129,7 @@ class Consumer
                 $billingId = !empty($customer->getDefaultBilling()) ? $customer->getDefaultBilling() : '';
                 $firstName = $customer->getFirstname();
                 $lastName = $customer->getLastname();
-                $storeId = $customer->getStoreId();
+                $storeId = $subscriber->getStoreId();
                 $storeView = $this->storeManager->getStore($storeId)->getName();
 
                 if (!empty($firstName)) {
@@ -174,7 +174,7 @@ class Consumer
                     $updateDataInSib[ConfigurationHelper::SIB_CITY_ATTRIBUTE] = !empty($address->getCity()) ? $address->getCity() : '';
                 }
                 $this->debugLogger->info(__('Subscription will synced with status %1', $subscriberStatus));
-                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
+                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus, $storeId);
                 $this->debugLogger->info(__('Subscription synced by queue runner for email %1', $email));
             } catch (\Exception $e) {
                 $this->debugLogger->error($e->getMessage());
@@ -196,7 +196,7 @@ class Consumer
                     $updateDataInSib[ConfigurationHelper::SIB_LANG_ATTRIBUTE] = $storeView;
                 }
                 $this->debugLogger->info(__('Subscription will synced with status %1', $subscriberStatus));
-                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus);
+                $this->subscriptionManager->subscribe($email, $updateDataInSib, $subscriberStatus, $storeId);
                 $this->debugLogger->info(__('Subscription synced by queue runner for email %1', $email));
             } catch (\Exception $e) {
                 $this->debugLogger->error($e->getMessage());
@@ -208,13 +208,24 @@ class Consumer
      * @param $storeId
      */
     private function syncContacts($storeId) {
-        /**
-         * @var Subscriber[] $subscribers
-         */
-        $subscribers = $this->subscriberCollectionFactory->create()
-            ->addFieldToFilter('store_id', $storeId)
-            ->addFieldToFilter('subscriber_status', ['in' => ConfigurationHelper::ALLOWED_SUBSCRIBER_STATUSES])
-            ->getItems();
+
+        if ($storeId !== 0) {
+            /**
+             * @var Subscriber[] $subscribers
+             */
+            $subscribers = $this->subscriberCollectionFactory->create()
+                ->addFieldToFilter('store_id', $storeId)
+                ->addFieldToFilter('subscriber_status', ['in' => ConfigurationHelper::ALLOWED_SUBSCRIBER_STATUSES])
+                ->getItems();
+        } else {
+            /**
+             * @var Subscriber[] $subscribers
+             */
+            $subscribers = $this->subscriberCollectionFactory->create()
+                ->addFieldToFilter('subscriber_status', ['in' => ConfigurationHelper::ALLOWED_SUBSCRIBER_STATUSES])
+                ->getItems();
+        }
+
         foreach ($subscribers as $subscriber) {
             $this->syncContact($subscriber);
         }

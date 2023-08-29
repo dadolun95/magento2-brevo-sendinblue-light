@@ -7,8 +7,10 @@
 
 namespace Dadolun\SibContactSync\Block\Adminhtml\Config;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /**
  * Class SyncContacts
@@ -16,6 +18,21 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
  */
 class SyncContacts extends Field
 {
+
+    /**
+     * SyncContacts constructor.
+     * @param Context $context
+     * @param array $data
+     * @param SecureHtmlRenderer|null $secureRenderer
+     */
+    public function __construct(
+        Context $context,
+        array $data = [],
+        ?SecureHtmlRenderer $secureRenderer = null
+    )
+    {
+        parent::__construct($context, $data, $secureRenderer);
+    }
 
     /**
      * Set template to itself
@@ -41,11 +58,16 @@ class SyncContacts extends Field
     {
         $originalData = $element->getOriginalData();
         $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : __('Sync contacts');
+        $storeParams = "";
+        if ($this->_request->getParam("store")) {
+            $storeParams = 'store/' . $this->_request->getParam("store");
+        }
+
         $this->addData(
             [
                 'button_label' => __($buttonLabel),
                 'html_id' => $element->getHtmlId(),
-                'ajax_url' => $this->_urlBuilder->getUrl('sibcontactsync/config/synccontacts'),
+                'ajax_url' => $this->_urlBuilder->getUrl('sibcontactsync/config/synccontacts') . $storeParams,
             ]
         );
 

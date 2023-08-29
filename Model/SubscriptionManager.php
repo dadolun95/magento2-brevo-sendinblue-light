@@ -107,18 +107,21 @@ class SubscriptionManager {
      * @param $email
      * @param $data
      * @param int $subscriberStatus
-     * @return bool|void
+     * @param null $storeId
+     * @return bool
      */
-    public function subscribe($email, $data, $subscriberStatus = Subscriber::STATUS_SUBSCRIBED)
+    public function subscribe($email, $data, $subscriberStatus = Subscriber::STATUS_SUBSCRIBED, $storeId = null)
     {
         if (!$this->configHelper->isSyncEnabled()) {
             return false;
         }
 
+        $store = $storeId ? $this->storeManager->getStore($storeId)->getCode() : null;
+
         if ($subscriberStatus == Subscriber::STATUS_UNCONFIRMED || $subscriberStatus == Subscriber::STATUS_NOT_ACTIVE) {
-            $listId = $this->configHelper->getContactValue('optin_list_id');
+            $listId = $this->configHelper->getContactValue('optin_list_id', $store);
         } else {
-            $listId = $this->configHelper->getContactValue('selected_list_data');
+            $listId = $this->configHelper->getContactValue('selected_list_data', $store);
         }
 
         /**
