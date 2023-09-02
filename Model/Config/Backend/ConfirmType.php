@@ -103,7 +103,7 @@ class ConfirmType extends Value
                 $sibClient = $this->sibClientConnector->createSibClient($apiKey);
                 $sibClient->setApiKey($apiKey);
                 $sibClient->getAccount();
-            } catch (\SendinBlue\Client\ApiException $e) {
+            } catch (\Brevo\Client\ApiException $e) {
                 $this->messageManager->addErrorMessage(__('An error occurred retrieving Brevo Account. Please check your API key.'));
                 $this->_dataSaveAllowed = false;
                 return;

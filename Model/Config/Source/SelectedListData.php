@@ -12,7 +12,7 @@ use \Dadolun\SibCore\Helper\SibClientConnector;
 use \Dadolun\SibCore\Model\Config\Backend\ApiKey;
 use \Dadolun\SibContactSync\Helper\Configuration;
 use Magento\Framework\Option\ArrayInterface;
-use \SendinBlue\Client\ApiException;
+use \Brevo\Client\ApiException;
 
 /**
  * Class SelectedListData

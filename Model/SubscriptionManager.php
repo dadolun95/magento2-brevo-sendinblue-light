@@ -138,7 +138,7 @@ class SubscriptionManager {
 
         try {
             $sibUser = $sibClient->getUser($email);
-        } catch (\SendinBlue\Client\ApiException $e) {
+        } catch (\Brevo\Client\ApiException $e) {
             $sibUser = [];
         }
 
@@ -159,7 +159,7 @@ class SubscriptionManager {
                 );
                 $sibClient->createUser($sibData);
             }
-        } catch (\SendinBlue\Client\ApiException $e) {
+        } catch (\Brevo\Client\ApiException $e) {
             $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Brevo.'));
         }
     }
@@ -181,7 +181,7 @@ class SubscriptionManager {
             $apiKey = $this->configHelper->getValue('api_key_v3');
             $sibClient->setApiKey($apiKey);
             $sibClient->updateUser($email, array('emailBlacklisted' => true, "smsBlacklisted" => true));
-        } catch (\SendinBlue\Client\ApiException $e) {
+        } catch (\Brevo\Client\ApiException $e) {
             $this->messageManager->addErrorMessage(__('An error occurred synchronizing user on Brevo.'));
         }
     }
