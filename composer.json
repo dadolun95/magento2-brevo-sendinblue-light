@@ -2,7 +2,7 @@
     "name": "dadolun95/magento2-brevo-sendinblue-light",
     "description": "Magento2 Brevo (Sendinblue previously) Contact Sync Integration Module",
     "type": "magento2-module",
-    "version": "1.0.14",
+    "version": "1.0.16",
     "require": {
         "dadolun95/magento2-brevo-sendinblue-core": "^1.0",
         "getbrevo/brevo-php": "^1.0"
