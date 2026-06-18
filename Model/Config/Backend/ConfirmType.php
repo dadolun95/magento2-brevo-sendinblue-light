@@ -74,8 +74,8 @@ class ConfirmType extends Value
         SibClientConnector $sibClientConnector,
         Configuration $configHelper,
         ManagerInterface $messageManager,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $contactNormalAttributes = [],
         array $data = []
     ) {
