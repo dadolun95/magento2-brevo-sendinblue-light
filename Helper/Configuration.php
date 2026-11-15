@@ -21,7 +21,7 @@ class Configuration extends \Dadolun\SibCore\Helper\Configuration
     const SIB_CLIENT_LASTNAME = 'LASTNAME';
 
     const SIB_CLIENT_ATTRIBUTE = 'CLIENT';
-    const SIB_SMS_ATTRIBUTE = 'CLIENT';
+    const SIB_SMS_ATTRIBUTE = 'SMS';
     const SIB_STORE_ATTRIBUTE = 'STORE_ID';
     const SIB_LANG_ATTRIBUTE = 'MAGENTO_LANG';
     const SIB_COMPANY_ATTRIBUTE = 'COMPANY';
